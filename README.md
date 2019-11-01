@@ -1,4 +1,6 @@
-# startup-company-fun
+# Startup Company☆Fun
+
+![サンプルイメージ](./docs/imgs/ProductionRequirements.png)
 
 ## Project setup
 ```

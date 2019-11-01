@@ -1,8 +1,14 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <v-container class="home" fill-height>
+    <v-layout column fill-height align-center justify-center>
+      <h1>
+        <span>STARTUP COMPANY</span>
+        <span class="orange--text">☆</span>
+        <span>FUN</span>
+      </h1>
+      <h3>CALCULATOR & TOOL</h3>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
