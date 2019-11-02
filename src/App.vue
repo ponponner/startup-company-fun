@@ -67,19 +67,11 @@ import { Component, Watch, Vue } from 'vue-property-decorator';
 import { Language, LANGUAGES } from '@/models/language';
 import { TextCategory, glbTexts, changeTextsByLanguage } from '@/models/text';
 
-// --------------------------------------------------
-// Views & Components
-// --------------------------------------------------
-import ProductionRequirements from './views/ProductionRequirements.vue';
-
-@Component({
-  components: {
-    ProductionRequirements,
-  },
-})
+@Component
 export default class App extends Vue {
   private items = [
     { title: 'Production Requirements', path: '/production-requirements' },
+    { title: 'Lab/TemapltedText', path: '/lab-templated-text' },
   ];
 
   //

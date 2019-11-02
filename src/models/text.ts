@@ -161,6 +161,7 @@ const TEXTS_JAPANESE = {
 export const TEXTS_BY_LANGUAGES = {
   [Language.English]: TEXTS_ENGLISH,
   [Language.Japanese]: TEXTS_JAPANESE,
+  [Language.Italian]: {},
 };
 export let glbTexts: Texts = TEXTS_BY_LANGUAGES[Language.English];
 export function changeTextsByLanguage(language: Language) {

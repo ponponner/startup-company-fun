@@ -141,7 +141,7 @@ export default class ProductionRequirements extends Vue {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 $view-header-height = 120px;
 $opacity = 0.15;
 

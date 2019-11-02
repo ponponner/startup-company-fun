@@ -18,6 +18,14 @@ const routes = [
         /* webpackChunkName: "ProductionRequirements" */ '../views/ProductionRequirements.vue'
       ),
   },
+  {
+    path: '/lab-templated-text',
+    name: 'LabTemplatedText',
+    component: () =>
+      import(
+        /* webpackChunkName: "LabTemplatedText" */ '../views/LabTemplatedText.vue'
+      ),
+  },
 ];
 
 const router = new VueRouter({
