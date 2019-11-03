@@ -88,11 +88,5 @@ export default class App extends Vue {
 </script>
 
 <style lang="stylus">
-.v-toolbar {
-  background: #EEE !important;
-}
-
-.v-content {
-  background: #EEE !important;
-}
+@import './styles/styles';
 </style>

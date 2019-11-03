@@ -1,18 +1,14 @@
 <template>
   <v-container class="lab-templated-text" fill-height fluid pa-0>
     <v-layout column fill-height>
-      <v-flex class="lab-templated-text__header" shrink>
-        <h1>LAB. TEMPLATED TEXT</h1>
-        <div class="lab-templated-text__menues">
+      <v-flex shrink>
+        <header>
+          <h1>Lab. Templated Text</h1>
           <v-layout align-center>
-            <v-menu
-              class="lab-templated-text__menu--language"
-              open-on-hover
-              offset-y
-            >
+            <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn
-                  class="lab-templated-text__menu-button"
+                  class="lab-templated-text__menu-btn"
                   v-on="on"
                   text
                   width="220"
@@ -35,14 +31,10 @@
               </v-list>
             </v-menu>
             <v-divider vertical />
-            <v-menu
-              class="lab-templated-text__menu--color"
-              open-on-hover
-              offset-y
-            >
+            <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn
-                  class="lab-templated-text__menu-button"
+                  class="lab-templated-text__menu-btn"
                   v-on="on"
                   text
                   width="180"
@@ -71,7 +63,7 @@
             </v-menu>
             <v-divider vertical />
           </v-layout>
-        </div>
+        </header>
       </v-flex>
       <v-flex class="lab-templated-text__body" grow>
         <v-layout column>
@@ -231,35 +223,22 @@ export default class LabWording extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-$opacity = 0.15;
-
 .lab-templated-text {
-  &__header {
-    padding: 1em 0.5em;
-    padding-bottom: 0;
-
-    h1 {
-      margin: 0.1em 1em;
-      color: rgba(black, $opacity) !important;
-    }
-  }
-
   &__body {
-    padding: 1em;
-    background: #FAFAFA;
+    padding: 16px;
 
     .v-card {
-      margin: 0.5em 0;
-
-      &__text {
-        font-weight: bold;
+      + .v-card {
+        margin-top: 16px;
       }
     }
   }
 
-  &__menu-button {
+  &__menu-btn {
+    height: 48px !important;
     justify-content: left !important;
     text-transform: none !important;
+    color: rgba(black, 0.8);
   }
 
   &__menu-content {

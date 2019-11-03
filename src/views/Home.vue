@@ -22,3 +22,14 @@ export default {
   },
 };
 </script>
+
+<style lang="stylus">
+.home {
+  background: transparent !important;
+
+  h1, h3 {
+    white-space: nowrap;
+  }
+}
+</style>
+

@@ -2,20 +2,20 @@
   <v-container class="production-requirements" fill-height fluid pa-0>
     <v-layout column fill-height>
       <v-flex class="view-header" shrink>
-        <v-layout column fill-height>
-          <v-spacer />
-          <v-flex shrink>
-            <h1 class="font-weight-black text-no-wrap">
-              PRODUCTION REQUIREMENTS
-            </h1>
-            <v-tabs v-model="tab" background-color="transparent">
-              <v-tab v-for="empType in employeeTypes" :key="empType">
-                {{ getEmployeeTypeName(empType) }}
-              </v-tab>
-            </v-tabs>
-            <v-divider />
-          </v-flex>
-        </v-layout>
+        <header>
+          <v-layout column fill-height>
+            <v-spacer />
+            <v-flex shrink>
+              <h1>PRODUCTION REQUIREMENTS</h1>
+              <v-tabs v-model="tab" background-color="transparent">
+                <v-tab v-for="empType in employeeTypes" :key="empType">
+                  {{ getEmployeeTypeName(empType) }}
+                </v-tab>
+              </v-tabs>
+              <v-divider />
+            </v-flex>
+          </v-layout>
+        </header>
       </v-flex>
       <v-flex class="view-body" grow>
         <v-tabs-items v-model="tab">
@@ -142,38 +142,24 @@ export default class ProductionRequirements extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-$view-header-height = 120px;
 $opacity = 0.15;
 
-.view-header {
-  height: $view-header-height;
+.v-tabs-items {
+  min-height: 100%;
+  background: transparent !important;
 
-  h1 {
-    margin: 0.1em 1em;
-    color: rgba(black, $opacity) !important;
-  }
-}
+  .list {
+    $item-size = 80px;
+    $item-spacing = 12px;
+    $item-num-on-row = 9;
+    $list-w = $item-size * $item-num-on-row + $item-spacing * $item-num-on-row;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: $list-w !important;
 
-.view-body {
-  background: #FAFAFA;
-
-  .v-tabs-items {
-    min-height: 100%;
-    background: transparent !important;
-  }
-}
-
-.list {
-  $item-size = 80px;
-  $item-spacing = 12px;
-  $item-num-on-row = 9;
-  $list-w = $item-size * $item-num-on-row + $item-spacing * $item-num-on-row;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: $list-w !important;
-
-  .product-type-icon {
-    margin: $item-spacing 0 0 $item-spacing;
+    .product-type-icon {
+      margin: $item-spacing 0 0 $item-spacing;
+    }
   }
 }
 </style>
