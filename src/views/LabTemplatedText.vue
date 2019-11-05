@@ -125,6 +125,36 @@
               </v-layout>
             </v-card-text>
           </v-card>
+          <v-card class="lab-templated-text__card-of-templated-text-neo">
+            <v-card-title>
+              TemplatedTextNeo
+            </v-card-title>
+            <v-divider />
+            <v-card-text>
+              <v-layout column>
+                <TemplatedTextNeo
+                  v-for="lang in [persistentLanguage, selectedLanguage]"
+                  :key="lang"
+                  :template="templates[lang]"
+                >
+                  <span
+                    :class="classListsByInsertKeys[wk]"
+                    v-for="wk in [
+                      wordingKey.Person,
+                      wordingKey.Action,
+                      wordingKey.Target,
+                      wordingKey.Tool,
+                    ]"
+                    :key="wk"
+                    :tag="wk"
+                    >{{ textsets[lang][wk] }}</span
+                  >
+                </TemplatedTextNeo>
+                <TemplatedTextNeo :template="templates[selectedLanguage]" />
+                <TemplatedTextNeo />
+              </v-layout>
+            </v-card-text>
+          </v-card>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -141,6 +171,7 @@ import { TextCategory, glbTexts } from '@/models/text';
 
 import TemplatedText from '@/components/TemplatedText.vue';
 import TemplatedTextOld from '@/components/TemplatedTextOld.vue';
+import TemplatedTextNeo from '@/components/TemplatedTextNeo.vue';
 
 enum WordKey {
   Person,
@@ -180,6 +211,7 @@ const textsets = {
   components: {
     TemplatedText,
     TemplatedTextOld,
+    TemplatedTextNeo,
   },
 })
 export default class LabWording extends Vue {
