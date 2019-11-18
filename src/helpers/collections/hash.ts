@@ -1,3 +1,5 @@
+import { Vue } from 'vue-property-decorator';
+
 export interface HashByNumber<TValue> {
   [key: number]: TValue | undefined;
 }
@@ -43,8 +45,8 @@ export class Hash<TValue> {
   public clear() {
     this.hash = {};
   }
-  public delete(key: string) {
-    delete this.hash[key];
+  public remove(key: string) {
+    Vue.delete(this.hash, key);
   }
   public get(key: string): TValue {
     const value = this.hash[key];
@@ -60,9 +62,6 @@ export class Hash<TValue> {
     return this.keys.find(k => k === key) !== undefined;
   }
   public set(key: string, value: TValue): TValue {
-    return (this.hash[key] = value);
-  }
-  public remove(key: string) {
-    delete this.hash[key];
+    return Vue.set(this.hash, key, value);
   }
 }

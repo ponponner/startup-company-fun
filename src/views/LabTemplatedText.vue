@@ -13,7 +13,10 @@
                   text
                   width="220"
                 >
-                  <span>LANGUAGE: {{ getLanguageNameInEnglish(selectedLanguage.id) }}</span>
+                  <span
+                    >LANGUAGE:
+                    {{ getLanguageNameInEnglish(selectedLanguage.id) }}</span
+                  >
                   <v-spacer />
                   <span>▼</span>
                 </v-btn>
@@ -244,7 +247,11 @@ export default class LabWording extends Vue {
   private persistentLanguage = catalog.languages.get(LanguageId.English);
   private selectedLanguage = catalog.languages.get(LanguageId.Japanese);
   private getLanguageNameInEnglish(languageId: string) {
-    return texts.get(LanguageId.English, TEXT_CATEGORY_ID.LanguageName, languageId);
+    return texts.get(
+      LanguageId.English,
+      TEXT_CATEGORY_ID.LanguageName,
+      languageId
+    );
   }
 
   // --------------------------------------------------

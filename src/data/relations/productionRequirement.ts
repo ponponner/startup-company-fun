@@ -387,6 +387,10 @@ for (const [employeeTypeId, hash2] of Object.entries(hierarcalDefinitions)) {
         parts,
         productionTime,
       });
+      console.log(
+        productTypeId,
+        parts.some(p => p.productTypeId === productTypeId + '')
+      );
     }
   }
 }

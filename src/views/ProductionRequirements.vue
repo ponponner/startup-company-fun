@@ -1,5 +1,5 @@
 <template>
-  <v-container class="production-requirements" fill-height fluid pa-0>
+  <v-container class="production-requirements" fill-height fluid>
     <v-layout column fill-height>
       <v-flex class="view-header" shrink>
         <header>
@@ -17,21 +17,41 @@
           </v-layout>
         </header>
       </v-flex>
-      <v-flex class="view-body" grow>
-        <v-tabs-items v-model="tab">
-          <v-tab-item v-for="eType in employeeTypes" :key="eType.id">
-            <v-layout class="list" row>
-              <ProductTypeIcon
-                v-for="pt in productTypes(eType.id)"
-                :key="pt.id"
-                :product-type-id="pt.id"
-                @mouseenter.native="onPttActivate(true, $event, pt.id)"
-                @mouseleave.native="onPttActivate(false)"
-              />
-            </v-layout>
-          </v-tab-item>
-        </v-tabs-items>
+      <v-flex class="view-body" shrink>
+        <v-layout column>
+          <v-flex>
+            <v-tabs-items v-model="tab">
+              <v-tab-item v-for="eType in employeeTypes" :key="eType.id">
+                <v-layout class="list" row>
+                  <ProductTypeIcon
+                    v-for="pt in productTypes(eType.id)"
+                    :key="pt.id"
+                    :product-type-id="pt.id"
+                    @mouseenter.native="onPttActivate(true, $event, pt.id)"
+                    @mouseleave.native="onPttActivate(false)"
+                    @click.native="increment(pt.id)"
+                  />
+                </v-layout>
+              </v-tab-item>
+            </v-tabs-items>
+          </v-flex>
+        </v-layout>
       </v-flex>
+      <v-flex class="view-header" shrink>
+        <header>
+          <h1>REQUESTS</h1>
+        </header>
+      </v-flex>
+      <v-flex class="view-body" shrink>
+        <ProductionRequests />
+      </v-flex>
+      <v-flex class="view-header" shrink>
+        <header><h1>TOTAL</h1></header>
+      </v-flex>
+      <v-flex class="view-body" shrink>
+        <ProductionRequestsTotal />
+      </v-flex>
+      <v-flex grow></v-flex>
       <ProductTypeTooltip :activator="pttActivator" :product-type-id="id4Ptt" />
     </v-layout>
   </v-container>
@@ -60,12 +80,15 @@ import {
 // Stores
 // --------------------------------------------------
 import { catalog } from '@/store/stores/catalog';
+import { productionQueue } from '@/store/stores/productionCalculator';
 
 // --------------------------------------------------
 // Components
 // --------------------------------------------------
 import ProductTypeIcon from '@/components/ProductTypeIcon.vue';
 import ProductTypeTooltip from '@/components/ProductTypeTooltip.vue';
+import ProductionRequests from '@/components/ProductionRequests.vue';
+import ProductionRequestsTotal from '@/components/ProductionRequestsTotal.vue';
 
 // --------------------------------------------------
 // Component
@@ -74,6 +97,8 @@ import ProductTypeTooltip from '@/components/ProductTypeTooltip.vue';
   components: {
     ProductTypeIcon,
     ProductTypeTooltip,
+    ProductionRequests,
+    ProductionRequestsTotal,
   },
 })
 export default class ProductionRequirements extends Vue {
@@ -86,6 +111,16 @@ export default class ProductionRequirements extends Vue {
     return catalog.productionRequirements.values
       .filter(pr => pr.employeeType.id === eTypeId)
       .map(pr => catalog.productTypes.get(pr.productType.id));
+  }
+
+  // --------------------------------------------------
+  // ProductionCalculator
+  // --------------------------------------------------
+  private increment(productTypeId: string) {
+    productionQueue.increment(productTypeId);
+  }
+  private decrement(productTypeId: string) {
+    productionQueue.decrement(productTypeId);
   }
 
   // --------------------------------------------------
@@ -109,24 +144,30 @@ export default class ProductionRequirements extends Vue {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 $opacity = 0.15;
 
-.v-tabs-items {
-  min-height: 100%;
-  background: transparent !important;
+.production-requirements {
+  padding: 0px !important;
+  padding-bottom: 50px !important;
 
-  .list {
-    $item-size = 80px;
-    $item-spacing = 12px;
-    $item-num-on-row = 9;
-    $list-w = $item-size * $item-num-on-row + $item-spacing * $item-num-on-row;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: $list-w !important;
+  .v-tabs-items {
+    background: transparent !important;
 
-    .product-type-icon {
-      margin: $item-spacing 0 0 $item-spacing;
+    .list {
+      $item-size = 80px;
+      $item-spacing = 12px;
+      $item-num-on-row = 9;
+      $list-w = $item-size * $item-num-on-row + $item-spacing * $item-num-on-row;
+      height: $item-size * 2 + $item-spacing * 5;
+      margin: 0 !important;
+      padding: 0 !important;
+      padding-bottom: $item-spacing * 3 !important;
+      width: $list-w !important;
+
+      .product-type-icon {
+        margin: $item-spacing 0 0 $item-spacing;
+      }
     }
   }
 }
