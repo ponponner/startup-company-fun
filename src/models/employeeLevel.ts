@@ -1,10 +1,13 @@
-export enum EmployeeLevel {
-  Beginner,
-  Intermediate,
-  Expert,
+import { TextCategoryId } from '@/data/ids';
+import { texts } from '@/store/stores/texts';
+
+export class EmployeeLevel {
+  public readonly id: string;
+  public get name(): string {
+    return texts.getInSelected(TextCategoryId.EmployeeLevelName, this.id);
+  }
+
+  constructor(id: string) {
+    this.id = id;
+  }
 }
-export const EMPLOYEE_LEVELS: EmployeeLevel[] = [
-  EmployeeLevel.Beginner,
-  EmployeeLevel.Intermediate,
-  EmployeeLevel.Expert,
-];

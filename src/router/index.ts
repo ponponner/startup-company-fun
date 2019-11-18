@@ -15,7 +15,7 @@ const routes = [
     name: 'ProductionRequirements',
     component: () =>
       import(
-        /* webpackChunkName: "ProductionRequirements" */ '../views/ProductionRequirements.vue'
+        /* webpackChunkName: "ProductionRequirements" */ '@/views/ProductionRequirements.vue'
       ),
   },
   {
@@ -23,7 +23,7 @@ const routes = [
     name: 'LabTemplatedText',
     component: () =>
       import(
-        /* webpackChunkName: "LabTemplatedText" */ '../views/LabTemplatedText.vue'
+        /* webpackChunkName: "LabTemplatedText" */ '@/views/LabTemplatedText.vue'
       ),
   },
 ];

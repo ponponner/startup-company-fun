@@ -8,8 +8,8 @@
             <v-flex shrink>
               <h1>PRODUCTION REQUIREMENTS</h1>
               <v-tabs v-model="tab" background-color="transparent">
-                <v-tab v-for="empType in employeeTypes" :key="empType">
-                  {{ getEmployeeTypeName(empType) }}
+                <v-tab v-for="eType in employeeTypes" :key="eType.id">
+                  {{ eType.name }}
                 </v-tab>
               </v-tabs>
               <v-divider />
@@ -19,23 +19,20 @@
       </v-flex>
       <v-flex class="view-body" grow>
         <v-tabs-items v-model="tab">
-          <v-tab-item v-for="empType in employeeTypes" :key="empType">
+          <v-tab-item v-for="eType in employeeTypes" :key="eType.id">
             <v-layout class="list" row>
               <ProductTypeIcon
-                v-for="pr in productionRequirements[empType]"
-                :key="pr.id"
-                :product-type-name="getProductTypeName(pr.productType)"
-                :employee-level-name="getEmployeeLevelName(pr.employeeLevel)"
-                :production-time="`${pr.productionTime}h`"
-                :is-raw-component="pr.parts.length === 0"
-                @mouseenter.native="onPttActivate(true, $event, pr)"
+                v-for="pt in productTypes(eType.id)"
+                :key="pt.id"
+                :product-type-id="pt.id"
+                @mouseenter.native="onPttActivate(true, $event, pt.id)"
                 @mouseleave.native="onPttActivate(false)"
               />
             </v-layout>
           </v-tab-item>
         </v-tabs-items>
       </v-flex>
-      <ProductTypeTooltip :activator="pttActivator" :data="pttData" />
+      <ProductTypeTooltip :activator="pttActivator" :product-type-id="id4Ptt" />
     </v-layout>
   </v-container>
 </template>
@@ -44,32 +41,35 @@
 /* tslint:disable:member-ordering */
 
 // --------------------------------------------------
-// Lib
+// Lib.
 // --------------------------------------------------
 import { Component, Vue } from 'vue-property-decorator';
 import Enumerable from 'linq';
 
 // --------------------------------------------------
-// Model & Data
+// Models
 // --------------------------------------------------
-import { Language, LANGUAGES } from '@/models/language';
-import { EmployeeType, EMPLOYEE_TYPES } from '@/models/employeeType';
-import { EmployeeLevel, EMPLOYEE_LEVELS } from '@/models/employeeLevel';
-import { ProductType, PRODUCT_TYPES } from '@/models/productType';
 import {
+  EmployeeLevel,
+  EmployeeType,
+  ProductType,
   ProductionRequirement,
-  PRODUCTION_REQUIREMENTS,
-} from '@/models/productionRequirement';
-import { TextCategory, glbTexts } from '@/models/text';
+} from '@/models';
+
+// --------------------------------------------------
+// Stores
+// --------------------------------------------------
+import { catalog } from '@/store/stores/catalog';
 
 // --------------------------------------------------
 // Components
 // --------------------------------------------------
 import ProductTypeIcon from '@/components/ProductTypeIcon.vue';
-import ProductTypeTooltip, {
-  ProductTypeTooltipData,
-} from '@/components/ProductTypeTooltip.vue';
+import ProductTypeTooltip from '@/components/ProductTypeTooltip.vue';
 
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
 @Component({
   components: {
     ProductTypeIcon,
@@ -79,64 +79,32 @@ import ProductTypeTooltip, {
 export default class ProductionRequirements extends Vue {
   private tab: number = 0;
 
-  //
-  private currentLanguage: Language = Language.English;
-  private languages: Language[] = LANGUAGES;
-  private getLanguageName(language: Language): string {
-    return glbTexts[TextCategory.LanguageName][language];
+  private get employeeTypes(): EmployeeType[] {
+    return catalog.employeeTypes.values;
   }
-
-  //
-  private employeeTypes: EmployeeType[] = EMPLOYEE_TYPES;
-  private getEmployeeTypeName(employeeType: EmployeeType) {
-    return glbTexts[TextCategory.EmployeeTypeName][employeeType];
+  private productTypes(eTypeId: string): EmployeeType[] {
+    return catalog.productionRequirements.values
+      .filter(pr => pr.employeeType.id === eTypeId)
+      .map(pr => catalog.productTypes.get(pr.productType.id));
   }
-
-  //
-  private employeeLevels: EmployeeLevel[] = EMPLOYEE_LEVELS;
-  private getEmployeeLevelName(employeeLevel: EmployeeLevel) {
-    return glbTexts[TextCategory.EmployeeLevelName][employeeLevel];
-  }
-
-  //
-  private getProductTypeName(productType: ProductType) {
-    return glbTexts[TextCategory.ProductTypeName][productType];
-  }
-
-  // productionRequirements[EmployeeType][EmployeeLevel][index]
-  private productionRequirements: ProductionRequirement[][] = Enumerable.from(
-    PRODUCTION_REQUIREMENTS
-  )
-    .groupBy(o => o.employeeType)
-    .select(g => g.toArray())
-    .toArray();
 
   // --------------------------------------------------
   // ProductTypeTooltip: PTT/ptt
   // --------------------------------------------------
   private pttActivator: HTMLElement | null = null;
-  private pttData: ProductTypeTooltipData | null = null;
+  private id4Ptt: string | null = null;
 
   private onPttActivate(
     visibility: boolean,
     e: MouseEvent,
-    data: ProductionRequirement
+    productTypeId: string
   ) {
     if (!visibility) {
       this.pttActivator = null;
       return;
     }
     this.pttActivator = e.target as HTMLElement;
-    this.pttData = {
-      productTypeName: this.getProductTypeName(data.productType),
-      employeeTypeName: this.getEmployeeTypeName(data.employeeType),
-      employeeLevelName: this.getEmployeeLevelName(data.employeeLevel),
-      parts: data.parts.map(o => ({
-        productTypeName: this.getProductTypeName(o.productType),
-        quantity: o.quantity,
-      })),
-      productionTime: `${data.productionTime}h`,
-    };
+    this.id4Ptt = productTypeId;
   }
 }
 </script>

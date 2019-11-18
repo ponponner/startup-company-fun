@@ -13,19 +13,19 @@
                   text
                   width="220"
                 >
-                  <span>LANGUAGE: {{ languageNames[selectedLanguage] }}</span>
+                  <span>LANGUAGE: {{ getLanguageNameInEnglish(selectedLanguage.id) }}</span>
                   <v-spacer />
                   <span>▼</span>
                 </v-btn>
               </template>
               <v-list class="lab-templated-text__menu-content">
                 <v-list-item
-                  v-for="lng in languages"
-                  :key="lng"
-                  @click="selectedLanguage = lng"
+                  v-for="lang in languages"
+                  :key="lang.id"
+                  @click="selectedLanguage = lang"
                 >
                   <v-list-item-title>
-                    {{ languageNames[lng] }}
+                    {{ getLanguageNameInEnglish(lang.id) }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -83,8 +83,8 @@
                     [-1, -1], // test
                   ]"
                   :key="index"
-                  :template-text="templates[item[0]]"
-                  :texts-by-insert-keys="textsets[item[1]]"
+                  :template-text="templates[item[0].id]"
+                  :texts-by-insert-keys="textsets[item[1].id]"
                 >
                   <span :class="classListsByInsertKeys[wordingKey.Person]">{{
                     wordingKey.Person
@@ -118,8 +118,8 @@
                     [-1, -1], // test
                   ]"
                   :key="index"
-                  :template-text="templates[item[0]]"
-                  :texts-by-insert-keys="textsets[item[1]]"
+                  :template-text="templates[item[0].id]"
+                  :texts-by-insert-keys="textsets[item[1].id]"
                   :class-lists-by-insert-keys="classListsByInsertKeys"
                 />
               </v-layout>
@@ -134,8 +134,8 @@
               <v-layout column>
                 <TemplatedTextNeo
                   v-for="lang in [persistentLanguage, selectedLanguage]"
-                  :key="lang"
-                  :template="templates[lang]"
+                  :key="lang.id"
+                  :template="templates[lang.id]"
                 >
                   <span
                     :class="classListsByInsertKeys[wk]"
@@ -147,10 +147,10 @@
                     ]"
                     :key="wk"
                     :tag="wk"
-                    >{{ textsets[lang][wk] }}</span
+                    >{{ textsets[lang.id][wk] }}</span
                   >
                 </TemplatedTextNeo>
-                <TemplatedTextNeo :template="templates[selectedLanguage]" />
+                <TemplatedTextNeo :template="templates[selectedLanguage.id]" />
                 <TemplatedTextNeo />
               </v-layout>
             </v-card-text>
@@ -164,14 +164,33 @@
 <script  lang="ts">
 /* tslint:disable:member-ordering */
 
+// --------------------------------------------------
+// Vue
+// --------------------------------------------------
 import { Component, Vue } from 'vue-property-decorator';
 
-import { Language, LANGUAGES } from '@/models/language';
-import { TextCategory, glbTexts } from '@/models/text';
+// --------------------------------------------------
+// Models
+// --------------------------------------------------
+import { Language } from '@/models/Language';
 
+// --------------------------------------------------
+// Data
+// --------------------------------------------------
+import { LanguageId } from '@/data/ids';
+
+// --------------------------------------------------
+// Stores
+// --------------------------------------------------
+import { catalog } from '@/store/stores/catalog';
+
+// --------------------------------------------------
+// Components
+// --------------------------------------------------
 import TemplatedText from '@/components/TemplatedText.vue';
 import TemplatedTextOld from '@/components/TemplatedTextOld.vue';
 import TemplatedTextNeo from '@/components/TemplatedTextNeo.vue';
+import { texts, TEXT_CATEGORY_ID } from '../store/stores/texts';
 
 enum WordKey {
   Person,
@@ -181,25 +200,25 @@ enum WordKey {
 }
 
 const templates = {
-  [Language.English]: `[[${WordKey.Person}]] [[${WordKey.Action}]] [[${WordKey.Target}]] with [[${WordKey.Tool}]].`,
-  [Language.Japanese]: `[[${WordKey.Person}]]は[[${WordKey.Tool}]]で[[${WordKey.Target}]]を[[${WordKey.Action}]]ます。`,
-  [Language.Italian]: `[[${WordKey.Person}]] [[${WordKey.Action}]] [[${WordKey.Target}]] con [[${WordKey.Tool}]].`,
+  [LanguageId.English]: `[[${WordKey.Person}]] [[${WordKey.Action}]] [[${WordKey.Target}]] with [[${WordKey.Tool}]].`,
+  [LanguageId.Japanese]: `[[${WordKey.Person}]]は[[${WordKey.Tool}]]で[[${WordKey.Target}]]を[[${WordKey.Action}]]ます。`,
+  [LanguageId.Italian]: `[[${WordKey.Person}]] [[${WordKey.Action}]] [[${WordKey.Target}]] con [[${WordKey.Tool}]].`,
 };
 
 const textsets = {
-  [Language.English]: {
+  [LanguageId.English]: {
     [WordKey.Person]: 'Bob',
     [WordKey.Action]: 'crushes',
     [WordKey.Target]: 'the apple',
     [WordKey.Tool]: 'a hammer',
   },
-  [Language.Japanese]: {
+  [LanguageId.Japanese]: {
     [WordKey.Person]: 'ボブ',
     [WordKey.Action]: '砕き',
     [WordKey.Target]: 'りんご',
     [WordKey.Tool]: '金槌',
   },
-  [Language.Italian]: {
+  [LanguageId.Italian]: {
     [WordKey.Person]: 'Bob',
     [WordKey.Action]: 'schiaccia',
     [WordKey.Target]: 'la mela',
@@ -207,6 +226,9 @@ const textsets = {
   },
 };
 
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
 @Component({
   components: {
     TemplatedText,
@@ -216,12 +238,14 @@ const textsets = {
 })
 export default class LabWording extends Vue {
   // --------------------------------------------------
-  // Language
+  // LanguageId
   // --------------------------------------------------
-  private readonly languages = LANGUAGES;
-  private readonly languageNames = glbTexts[TextCategory.LanguageName];
-  private persistentLanguage = Language.English;
-  private selectedLanguage = Language.Japanese;
+  private readonly languages = catalog.languages.values;
+  private persistentLanguage = catalog.languages.get(LanguageId.English);
+  private selectedLanguage = catalog.languages.get(LanguageId.Japanese);
+  private getLanguageNameInEnglish(languageId: string) {
+    return texts.get(LanguageId.English, TEXT_CATEGORY_ID.LanguageName, languageId);
+  }
 
   // --------------------------------------------------
   // Color

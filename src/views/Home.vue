@@ -11,16 +11,19 @@
   </v-container>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+<script lang="ts">
+// --------------------------------------------------
+// Vue
+// --------------------------------------------------
+import { Component, Vue } from 'vue-property-decorator';
 
-export default {
-  name: 'home',
-  components: {
-    HelloWorld,
-  },
-};
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
+@Component
+export default class Home extends Vue {
+  private readonly name = 'home';
+}
 </script>
 
 <style lang="stylus">

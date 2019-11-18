@@ -7,8 +7,15 @@
 <script lang="ts">
 /* tslint:disable:member-ordering */
 
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+// --------------------------------------------------
+// Lib.
+// --------------------------------------------------
 import { HashByString } from '@/helpers/collections';
+
+// --------------------------------------------------
+// Vue
+// --------------------------------------------------
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 
 function createHtmlSpanElement(text: string) {
   const elem = document.createElement('span');
@@ -16,6 +23,9 @@ function createHtmlSpanElement(text: string) {
   return elem;
 }
 
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
 @Component
 export default class TemplatedTextNeo extends Vue {
   // ex. '[[key1]] is [[key2]]'

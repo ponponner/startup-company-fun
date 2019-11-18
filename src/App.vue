@@ -34,7 +34,7 @@
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" text>
             <span>Language </span>
-            <span>({{ getLanguageName(currentLanguage) }})</span>
+            <span>({{ selectedLanguage.name }})</span>
             <span> ▼</span>
           </v-btn>
         </template>
@@ -42,9 +42,9 @@
           <v-list-item
             v-for="(lang, index) in languages"
             :key="index"
-            @click="currentLanguage = lang"
+            @click="selectedLanguage = lang"
           >
-            <v-list-item-title>{{ getLanguageName(lang) }}</v-list-item-title>
+            <v-list-item-title>{{ lang.name }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -56,17 +56,27 @@
 </template>
 
 <script lang="ts">
+/* tslint:disable:member-ordering */
+
 // --------------------------------------------------
 // Lib
 // --------------------------------------------------
 import { Component, Watch, Vue } from 'vue-property-decorator';
 
 // --------------------------------------------------
-// Model & Data
+// Models
 // --------------------------------------------------
-import { Language, LANGUAGES } from '@/models/language';
-import { TextCategory, glbTexts, changeTextsByLanguage } from '@/models/text';
+import { Language } from '@/models';
 
+// --------------------------------------------------
+// Stores
+// --------------------------------------------------
+import { texts } from '@/store/stores/texts';
+import { catalog } from '@/store/stores/catalog';
+
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
 @Component
 export default class App extends Vue {
   private items = [
@@ -74,15 +84,14 @@ export default class App extends Vue {
     { title: 'Lab/TemapltedText', path: '/lab-templated-text' },
   ];
 
-  //
-  private currentLanguage: Language = Language.Japanese;
-  private languages: Language[] = LANGUAGES;
-  private getLanguageName(language: Language): string {
-    return glbTexts[TextCategory.LanguageName][language];
+  private get languages(): Language[] {
+    return catalog.languages.values;
   }
-  @Watch('currentLanguage', { immediate: true })
-  private onLanguageChange(language: Language) {
-    changeTextsByLanguage(this.currentLanguage);
+  private get selectedLanguage(): Language {
+    return catalog.languages.get(texts.selectedLanguageId);
+  }
+  private set selectedLanguage(newValue: Language) {
+    texts.selectLanguage(newValue.id);
   }
 }
 </script>

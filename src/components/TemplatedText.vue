@@ -7,9 +7,19 @@
 <script lang="ts">
 /* tslint:disable:member-ordering */
 
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+// --------------------------------------------------
+// Lib.
+// --------------------------------------------------
 import { HashByString } from '@/helpers/collections';
 
+// --------------------------------------------------
+// Vue
+// --------------------------------------------------
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
 @Component
 export default class TemplatedText extends Vue {
   private mounted() {

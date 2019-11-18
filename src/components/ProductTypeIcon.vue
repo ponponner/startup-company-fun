@@ -5,30 +5,64 @@
   >
     <v-layout column fill-height>
       <v-flex class="name" grow>
-        {{ productTypeName }}
+        {{ productType.name }}
       </v-flex>
       <v-divider />
       <v-flex class="etc" shrink>
-        {{ employeeLevelName }}
+        {{ employeeLevel.name }}
       </v-flex>
       <v-divider />
       <v-flex class="etc" shrink>
-        {{ productionTime }}
+        <span>{{ pr.productionTime }}</span>
+        <span>h</span>
       </v-flex>
     </v-layout>
   </v-card>
 </template>
 
 <script lang="ts">
+/* tslint:disable:member-ordering */
+
+// --------------------------------------------------
+// Vue
+// --------------------------------------------------
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
+// --------------------------------------------------
+// Models
+// --------------------------------------------------
+import { EmployeeLevel } from '@/models/EmployeeLevel';
+import { ProductionRequirement } from '@/models/ProductionRequirement';
+import { ProductType } from '@/models/ProductType';
+
+// --------------------------------------------------
+// Stores
+// --------------------------------------------------
+import { catalog } from '@/store/stores/catalog';
+
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
 @Component
 export default class ProductTypeIcon extends Vue {
   public static readonly className = 'product-type-icon';
-  @Prop() private productTypeName!: string;
-  @Prop() private employeeLevelName!: string;
-  @Prop() private productionTime!: string;
-  @Prop() private isRawComponent!: boolean;
+
+  @Prop() private productTypeId!: string;
+
+  private get employeeLevel(): EmployeeLevel {
+    return catalog.employeeLevels.get(this.pr.employeeLevel.id);
+  }
+  private get isRawComponent(): boolean {
+    return this.pr.parts.length === 0;
+  }
+  private get pr(): ProductionRequirement {
+    return catalog.productionRequirements.values.filter(
+      o => o.productType.id === this.productTypeId
+    )[0];
+  }
+  private get productType(): ProductType {
+    return catalog.productTypes.get(this.productTypeId);
+  }
 }
 </script>
 
@@ -68,6 +102,7 @@ $size = 80px;
     right: 0;
     bottom: 0;
     left: 0;
+    border-radius: 50% !important;
     background: gray;
     opacity: 0;
   }
