@@ -6,10 +6,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint --no-fix",
-    "lint:fix": "vue-cli-service lint --fix"
+    "lint:fix": "vue-cli-service lint --fix",
+    "post-install": "npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "core-js": "^3.3.2",
+    "express": "4.17.1",
     "linq": "3.2.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
