@@ -1,11 +1,6 @@
 # Startup Company☆Fun
 
-|  |  |
-| :-: | :-: |
-| ![](./docs/imgs/Home.png) | ![](./docs/imgs/ProductionRequirements.png) |
-| ![](./docs/imgs/LabTemplatedText.png) |  |
-
-</div>
+![](./docs/imgs/ProductionRequirements.png)
 
 ## Project setup
 
