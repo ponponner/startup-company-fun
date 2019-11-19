@@ -247,7 +247,7 @@ const hierarcalDefinitions: HierarcalDefinitions = {
         ProductTypeId.PaymentGatewayModule,
         76,
         [
-          [ProductTypeId.PaymentGatewayModule, 1],
+          [ProductTypeId.DatabaseLayer, 1],
           [ProductTypeId.ApiClientModule, 1],
           [ProductTypeId.AuthenticationModule, 1],
         ],
@@ -274,7 +274,7 @@ const hierarcalDefinitions: HierarcalDefinitions = {
         ProductTypeId.BandwidthCompressionModule,
         18,
         [
-          [ProductTypeId.BandwidthCompressionModule, 1],
+          [ProductTypeId.CompressionComponent, 1],
           [ProductTypeId.NetworkComponent, 1],
           [ProductTypeId.BackendComponent, 1],
         ],
@@ -387,10 +387,6 @@ for (const [employeeTypeId, hash2] of Object.entries(hierarcalDefinitions)) {
         parts,
         productionTime,
       });
-      console.log(
-        productTypeId,
-        parts.some(p => p.productTypeId === productTypeId + '')
-      );
     }
   }
 }

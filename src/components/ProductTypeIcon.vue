@@ -93,6 +93,10 @@ $size = 80px;
     border-radius: 50% !important;
   }
 
+  &.raw-component::before {
+    border-radius: 50% !important;
+  }
+
   // overlay(invisible)
   &::before {
     display: block;
@@ -102,7 +106,6 @@ $size = 80px;
     right: 0;
     bottom: 0;
     left: 0;
-    border-radius: 50% !important;
     background: gray;
     opacity: 0;
   }

@@ -9,7 +9,6 @@ import { Hash } from '@/helpers/collections';
 // Vuex
 // --------------------------------------------------
 import {
-  Action,
   Module,
   VuexModule,
   Mutation,
@@ -20,7 +19,10 @@ import store from '@/store';
 // --------------------------------------------------
 // Data
 // --------------------------------------------------
-import { TextCategoryId as TEXT_CATEGORY_ID } from '@/data/ids';
+import {
+  TextCategoryId as TEXT_CATEGORY_ID,
+  LanguageId as LANGUAGE_ID,
+} from '@/data/ids';
 import { TEXTS_DATA, DEFAULT_LANGUAGE_ID } from '@/data/texts';
 
 // --------------------------------------------------
@@ -38,7 +40,7 @@ class TextStore extends VuexModule {
     // Language
     // ------------------------------
     this.defaultLanguageId = DEFAULT_LANGUAGE_ID;
-    this.selectedLanguageId = this.defaultLanguageId;
+    this.selectedLanguageId = LANGUAGE_ID.Japanese;
 
     // ------------------------------
     // Text

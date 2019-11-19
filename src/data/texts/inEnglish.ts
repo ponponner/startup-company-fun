@@ -14,7 +14,6 @@ export const inEnglish: TextsInSpecificLanguage = {
   [TextCategoryId.LanguageName]: {
     [LanguageId.English]: 'English',
     [LanguageId.Japanese]: 'Japanese',
-    [LanguageId.Italian]: 'Italian',
   },
   // ------------------------------
   // EmployeeTypeName
@@ -113,4 +112,27 @@ export const inEnglish: TextsInSpecificLanguage = {
   // RawComponentName
   // ------------------------------
   [TextCategoryId.RawComponentName]: { '0': 'Raw Component' },
+  // ------------------------------
+  // UI Component
+  // ------------------------------
+  [TextCategoryId.Ui__Component__ProductionRequests]: {
+    ProductType: 'ProductType',
+    EmployeeType: 'EmployeeType',
+    EmployeeLevel: 'EmployeeLevel',
+    Quantity: 'Quantity',
+  },
+  [TextCategoryId.Ui__Component__ProductionRequestsTotal]: {
+    ProductType: 'ProductType',
+    EmployeeType: 'EmployeeType',
+    EmployeeLevel: 'EmployeeLevel',
+    Quantity: 'Quantity',
+  },
+  // ------------------------------
+  // UI View
+  // ------------------------------
+  [TextCategoryId.Ui__View__ProductionRequirements]: {
+    ProductTypes: 'ProductTypes',
+    Requests: 'Requests',
+    Total: 'Total',
+  },
 };

@@ -14,7 +14,6 @@ export const inJapanese: TextsInSpecificLanguage = {
   [TextCategoryId.LanguageName]: {
     [LanguageId.English]: '英語',
     [LanguageId.Japanese]: '日本語',
-    [LanguageId.Italian]: 'イタリア語',
   },
   // ------------------------------
   // EmployeeTypeName
@@ -113,4 +112,27 @@ export const inJapanese: TextsInSpecificLanguage = {
   // RawComponentName
   // ------------------------------
   [TextCategoryId.RawComponentName]: { '0': '基本コンポーネント' },
+  // ------------------------------
+  // UI Component
+  // ------------------------------
+  [TextCategoryId.Ui__Component__ProductionRequests]: {
+    ProductType: '製品',
+    EmployeeType: '従業員タイプ',
+    EmployeeLevel: '従業員レベル',
+    Quantity: '数量',
+  },
+  [TextCategoryId.Ui__Component__ProductionRequestsTotal]: {
+    ProductType: '製品',
+    EmployeeType: '従業員タイプ',
+    EmployeeLevel: '従業員レベル',
+    Quantity: '数量',
+  },
+  // ------------------------------
+  // UI  ProductionRequirements
+  // ------------------------------
+  [TextCategoryId.Ui__View__ProductionRequirements]: {
+    ProductTypes: '製品一覧',
+    Requests: '要求一覧',
+    Total: '総計',
+  },
 };

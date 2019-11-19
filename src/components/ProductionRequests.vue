@@ -3,10 +3,10 @@
     <template v-slot:default>
       <thead>
         <tr>
-          <th>ProductType</th>
-          <th>EmployeeType</th>
-          <th>EmployeeLevel</th>
-          <th colspan="3" style="text-align: center">Quantity</th>
+          <th class="product-type">{{ getUiText('ProductType') }}</th>
+          <th class="employee-type">{{ getUiText('EmployeeType') }}</th>
+          <th class="employee-level">{{ getUiText('EmployeeLevel') }}</th>
+          <th class="quantity" colspan="3">{{ getUiText('Quantity') }}</th>
           <th class="remove"><v-btn x-small @click="clear()">clear</v-btn></th>
         </tr>
       </thead>
@@ -49,6 +49,7 @@ import { ProductType } from '@/models/ProductType';
 // --------------------------------------------------
 import { catalog } from '@/store/stores/catalog';
 import { productionQueue } from '@/store/stores/productionCalculator';
+import { texts, TEXT_CATEGORY_ID } from '@/store/stores/texts';
 
 // --------------------------------------------------
 // Component
@@ -79,11 +80,35 @@ export default class ProductionRequests extends Vue {
   private clear() {
     productionQueue.requests.clear();
   }
+
+  // --------------------------------------------------
+  // Texts
+  // --------------------------------------------------
+  private getUiText(key: string) {
+    return texts.getInSelected(
+      TEXT_CATEGORY_ID.Ui__Component__ProductionRequests,
+      key
+    );
+  }
 }
 </script>
 
 <style lang="stylus">
 .production-requests {
+  th {
+    &.product-type {
+      width: 230px;
+      min-width: 230px;
+      max-width: 230px;
+    }
+
+    &.employee-type, &.employee-level {
+      width: 150px;
+      min-width: 150px;
+      max-width: 150px;
+    }
+  }
+
   tbody > tr > td {
     white-space: nowrap;
   }
@@ -94,7 +119,7 @@ export default class ProductionRequests extends Vue {
 
   .quantity {
     width: 30px;
-    text-align: center;
+    text-align: center !important;
 
     &:nth-child(3) {
       width: 50px;

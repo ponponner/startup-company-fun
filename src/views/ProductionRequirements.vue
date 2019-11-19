@@ -6,7 +6,7 @@
           <v-layout column fill-height>
             <v-spacer />
             <v-flex shrink>
-              <h1>PRODUCTION REQUIREMENTS</h1>
+              <h1>{{ getUiText('ProductTypes') }}</h1>
               <v-tabs v-model="tab" background-color="transparent">
                 <v-tab v-for="eType in employeeTypes" :key="eType.id">
                   {{ eType.name }}
@@ -39,14 +39,16 @@
       </v-flex>
       <v-flex class="view-header" shrink>
         <header>
-          <h1>REQUESTS</h1>
+          <h1>{{ getUiText('Requests') }}</h1>
         </header>
       </v-flex>
       <v-flex class="view-body" shrink>
         <ProductionRequests />
       </v-flex>
       <v-flex class="view-header" shrink>
-        <header><h1>TOTAL</h1></header>
+        <header>
+          <h1>{{ getUiText('Total') }}</h1>
+        </header>
       </v-flex>
       <v-flex class="view-body" shrink>
         <ProductionRequestsTotal />
@@ -81,6 +83,7 @@ import {
 // --------------------------------------------------
 import { catalog } from '@/store/stores/catalog';
 import { productionQueue } from '@/store/stores/productionCalculator';
+import { texts, TEXT_CATEGORY_ID } from '@/store/stores/texts';
 
 // --------------------------------------------------
 // Components
@@ -140,6 +143,16 @@ export default class ProductionRequirements extends Vue {
     }
     this.pttActivator = e.target as HTMLElement;
     this.id4Ptt = productTypeId;
+  }
+
+  // --------------------------------------------------
+  // Texts
+  // --------------------------------------------------
+  private getUiText(key: string) {
+    return texts.getInSelected(
+      TEXT_CATEGORY_ID.Ui__View__ProductionRequirements,
+      key
+    );
   }
 }
 </script>
